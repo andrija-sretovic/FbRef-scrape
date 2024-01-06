@@ -38,6 +38,8 @@ for name in table_names:
     stats_columns = stats[1]
     stats_df = pd.DataFrame(stats[2:], columns=stats_columns)
 
+    stats_df.to_csv(f"{' '.join(name.split('_')[2:])}-{today}", index=False)
+
     if team_for_df.empty:
         team_for_df = stats_df
     else:
@@ -59,6 +61,8 @@ for name in table_names_agg:
 
     stats_agg_columns = stats_agg[1]
     stats_agg_df = pd.DataFrame(stats_agg[2:], columns=stats_agg_columns)
+
+    stats_agg_df.to_csv(f"{' '.join(name.split('_')[2:])}-{today}", index=False)
 
     if team_agg_df.empty:
         team_agg_df = stats_agg_df
