@@ -2,10 +2,17 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 from datetime import datetime
+from selenium import webdriver
 
 today = datetime.today().strftime('%d-%m-%Y')
 
 fbref_url_pl = 'https://fbref.com/en/comps/9/Premier-League-Stats'
+
+shooting = 'https://fbref.com/en/comps/9/shooting/Premier-League-Stats#all_stats_shooting'
+goalkeeper = 'https://fbref.com/en/comps/9/keepers/Premier-League-Stats#all_stats_keeper'
+passing = 'https://fbref.com/en/comps/9/passing/Premier-League-Stats#all_stats_passing'
+passing_types = 'https://fbref.com/en/comps/9/passing_types/Premier-League-Stats#all_stats_passing_types'
+creativity = 'https://fbref.com/en/comps/9/gca/Premier-League-Stats#all_stats_gca'
 
 response = requests.get(url=fbref_url_pl)
 response.raise_for_status()
@@ -21,6 +28,7 @@ table_names_agg = ['stats_squads_standard_against', 'stats_squads_keeper_against
                    'stats_squads_shooting_against', 'stats_squads_passing_against', 'stats_squads_passing_types_against',
                    'stats_squads_gca_against', 'stats_squads_defense_against', 'stats_squads_possession_against']
 
+player_stats_categories = [shooting, goalkeeper, passing, passing_types, creativity]
 
 team_for_df = pd.DataFrame()
 team_agg_df = pd.DataFrame()
@@ -73,3 +81,26 @@ for name in table_names_agg:
 
 team_agg_df.to_csv(f'PL team stats agg-{today}.csv', index=False)
 
+# Individual player stats data
+
+# for site in player_stats_categories:
+#     driver = webdriver.Chrome()
+#
+#     driver.get(url=f'{site}')
+#     print(f'{site}')
+#     driver.implicitly_wait(10)
+#
+#     website2 = driver.page_source
+#     driver.quit()
+#
+#     soup2 = BeautifulSoup(website2, 'html.parser')
+#
+#     player_stats_table = soup2.find('table', id='_'.join(site.split('#')[1].split('_')[1:]))
+#     player_stats = []
+#
+#     for row in player_stats_table.find_all('tr'):
+#         player_stat = [cell.text.strip() for cell in row.find_all(['th', 'td'])]
+#         player_stats.append(player_stat)
+#     columns = player_stats[1]
+#     player_stats_df = pd.DataFrame(player_stats[2:], columns=columns)
+#     player_stats_df.to_csv(f"{site.split('#')[1].split('_')[2:]}.csv", index=False)
