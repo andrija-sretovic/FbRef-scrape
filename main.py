@@ -102,4 +102,4 @@ for site in player_stats_categories:
         player_stats.append(player_stat)
     columns = player_stats[1]
     player_stats_df = pd.DataFrame(player_stats[2:], columns=columns)
-    player_stats_df.to_csv(f"{site.split('#')[1].split('_')[2:]}.csv", index=False)
+    player_stats_df.to_csv(f"{site.split('#')[1].split('_')[2:]}-{today}.csv", index=False)
