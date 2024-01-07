@@ -83,24 +83,24 @@ team_agg_df.to_csv(f'PL team stats agg-{today}.csv', index=False)
 
 # Individual player stats data
 
-# for site in player_stats_categories:
-#     driver = webdriver.Chrome()
-#
-#     driver.get(url=f'{site}')
-#     print(f'{site}')
-#     driver.implicitly_wait(10)
-#
-#     website2 = driver.page_source
-#     driver.quit()
-#
-#     soup2 = BeautifulSoup(website2, 'html.parser')
-#
-#     player_stats_table = soup2.find('table', id='_'.join(site.split('#')[1].split('_')[1:]))
-#     player_stats = []
-#
-#     for row in player_stats_table.find_all('tr'):
-#         player_stat = [cell.text.strip() for cell in row.find_all(['th', 'td'])]
-#         player_stats.append(player_stat)
-#     columns = player_stats[1]
-#     player_stats_df = pd.DataFrame(player_stats[2:], columns=columns)
-#     player_stats_df.to_csv(f"{site.split('#')[1].split('_')[2:]}.csv", index=False)
+for site in player_stats_categories:
+    driver = webdriver.Chrome()
+
+    driver.get(url=f'{site}')
+    print(f'{site}')
+    driver.implicitly_wait(10)
+
+    website2 = driver.page_source
+    driver.quit()
+
+    soup2 = BeautifulSoup(website2, 'html.parser')
+
+    player_stats_table = soup2.find('table', id='_'.join(site.split('#')[1].split('_')[1:]))
+    player_stats = []
+
+    for row in player_stats_table.find_all('tr'):
+        player_stat = [cell.text.strip() for cell in row.find_all(['th', 'td'])]
+        player_stats.append(player_stat)
+    columns = player_stats[1]
+    player_stats_df = pd.DataFrame(player_stats[2:], columns=columns)
+    player_stats_df.to_csv(f"{site.split('#')[1].split('_')[2:]}.csv", index=False)
