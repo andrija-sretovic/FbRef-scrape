@@ -87,7 +87,6 @@ for site in player_stats_categories:
     driver = webdriver.Chrome()
 
     driver.get(url=f'{site}')
-    print(f'{site}')
     driver.implicitly_wait(10)
 
     website2 = driver.page_source
